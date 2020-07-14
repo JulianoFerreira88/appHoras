@@ -1,33 +1,14 @@
 package model.entities;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.Objects;
 
 public class Registro {
     private int id;
-    private String hora;
     private String data;
+    private String diaSemana;
+    private String hora;
 
     public Registro() {
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public Registro(int id, String time) {
-        this.id = id;
-        this.hora = time;
-    }
-
-    public Registro(String hora) {
-        this.hora = hora;
     }
 
     public int getId() {
@@ -38,6 +19,22 @@ public class Registro {
         this.id = id;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getDiaSemana() {
+        return diaSemana;
+    }
+
+    public void setDiaSemana(String diaSemana) {
+        this.diaSemana = diaSemana;
+    }
+
     public String getHora() {
         return hora;
     }
@@ -46,34 +43,25 @@ public class Registro {
         this.hora = hora;
     }
 
-    public void setTime(String time) {
-        this.hora = time;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Registro)) return false;
+        Registro registro = (Registro) o;
+        return id == registro.id;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 31 * hash + this.id;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Registro other = (Registro) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        return hora;
+        final StringBuilder sb = new StringBuilder("Registro{");
+        sb.append("data='").append(data).append('\'');
+        sb.append(", hora='").append(hora).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }
