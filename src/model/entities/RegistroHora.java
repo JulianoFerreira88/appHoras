@@ -1,4 +1,6 @@
-package model.entidades;
+package model.entities;
+
+import util.exception.DomainException;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -38,10 +40,7 @@ public class RegistroHora implements Serializable {
             return false;
         }
         RegistroHora other = (RegistroHora) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override
@@ -53,7 +52,7 @@ public class RegistroHora implements Serializable {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(String data) throws DomainException {
         this.data = data;
         this.diaSemana = retornaDiaSemana(data);
 
@@ -71,16 +70,17 @@ public class RegistroHora implements Serializable {
         this.hora = hora;
     }
 
-    private String retornaDiaSemana(String data) {
+    private String retornaDiaSemana(String data) throws DomainException {
         String diaSemana = "";
-        Date d = null;
+        Date d;
         try {
             d = new SimpleDateFormat("dd/MM/yy").parse(data);
         } catch (ParseException ex) {
+            throw new DomainException(ex.getMessage());
         }
         Calendar c = new GregorianCalendar();
         c.setTime(d);
-        int dia = c.get(c.DAY_OF_WEEK);
+        int dia = c.get(Calendar.DAY_OF_WEEK);
         switch (dia) {
             case Calendar.SUNDAY:
                 diaSemana = "Domingo";
